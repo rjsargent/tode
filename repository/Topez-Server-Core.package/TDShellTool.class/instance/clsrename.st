@@ -8,9 +8,10 @@ clsrename
   self getSubcommandOptsMixedLongShort: {}.
   classes := Set new.
   1 to: subArguments size by: 2 do: [ :index | 
-    | clsRef oldClass newName newClass comment |
+    | clsRef oldClass oldName newName newClass comment |
     clsRef := subArguments at: index.
     oldClass := self resolveClassReference: clsRef.
+    oldName := oldClass name asString.
     newName := subArguments at: index + 1.
     newClass := self clsrename: oldClass to: newName.
     classes add: newClass ].

@@ -1,0 +1,19 @@
+project api
+projectLoad: projectName doGet: doGet gsDeployer: gsDeployerOption selector: projectSelector repositoryDescription: repositoryDescription loads: loads version: configurationVersion onConflict: onConflict onDowngrade: onDowngrade onLock: onLock onUpgrade: onUpgrade ignoreImage: ignoreImage silently: silently cacheRepository: cacheRepository repositoryOverrides: repositoryOverrides
+  ^ self
+    projectLoad: projectName
+    doGet: doGet
+    gsDeployer: gsDeployerOption
+    selector: projectSelector
+    repositoryDescription: repositoryDescription
+    className: nil
+    loads: loads
+    version: configurationVersion
+    onConflict: onConflict
+    onDowngrade: onDowngrade
+    onLock: onLock
+    onUpgrade: onUpgrade
+    ignoreImage: ignoreImage
+    silently: silently
+    cacheRepository: cacheRepository
+    repositoryOverrides: repositoryOverrides

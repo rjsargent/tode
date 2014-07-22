@@ -8,18 +8,20 @@ projectloadManPage
   project load - Load the Metacello project
 
 SYNOPSIS
-  project load [--loads=<load-expression>] \
-               [--no-flush] [--no-get] \
-               [ (--baseline | --configuration --version=<version> ) ] \
-               [--repository=<repository-reference>] \
-               [--onConflict=useIncoming|useExisting] \
-               [--onDowngrade=useIncoming|useExisting] \
-               [--onLock=break|honor] \
-               [--onUpgrade=useIncoming|useExisting] \
-               [--ignoreImage] [--silently] \
-               [--cacheRepository=@<repository-reference>] \
-               [--repositoryOverrides=@<repository-reference>] \
-               <project-name>
+  project load [--loads=<load-expression>]
+               [--className=<project-class-name]
+               [--no-flush] [--no-get]
+               [ (--baseline | --configuration --version=<version> ) ]
+               [--repository=<repository-reference>]
+               [--onConflict=useNew|useExisting]
+               [--onDowngrade=useNew|useExisting]
+               [--onLock=break|honor]
+               [--onUpgrade=useNew|useExisting]
+               [--ignoreImage] [--silently]
+               [--cacheRepository=@<repository-reference>]
+               [--repositoryOverrides=@<repository-reference>]
+               [--deploy=auto|bulk|none]
+               ( <project-name> | @<project-reference> )
 
 DESCRIPTION
 

@@ -1,26 +1,30 @@
 project
 projectload
   "
-  project load [--loads=<load-expression>] \
-               [--no-flush] [--no-get] \
-               [ (--baseline | --configuration --version=<version> ) ] \
-               [--repository=<repository-reference>] \
-               [--onConflict=useIncoming|useExisting] \
-               [--onDowngrade=useIncoming|useExisting] \
-               [--onLock=break|honor] \
-               [--onUpgrade=useIncoming|useExisting] \
-               [--ignoreImage] [--silently] \
-               [--cacheRepository=@<repository-reference>] \
-               [--repositoryOverrides=@<repository-reference>] \
-               <project-name>
+  project load [--loads=<load-expression>]
+               [--className=<project-class-name]
+               [--no-flush] [--no-get]
+               [ (--baseline | --configuration --version=<version> ) ]
+               [--repository=<repository-reference>]
+               [--onConflict=useNew|useExisting]
+               [--onDowngrade=useNew|useExisting]
+               [--onLock=break|honor]
+               [--onUpgrade=useNew|useExisting]
+               [--ignoreImage] [--silently]
+               [--cacheRepository=@<repository-reference>]
+               [--repositoryOverrides=@<repository-reference>]
+               [--deploy=auto|bulk|none]
+               ( <project-name> | @<project-reference> )
 "
 
-  | projectName registration description loads loaded projectSelector metacello configurationVersion onConflict onDowngrade onLock onUpgrade ignoreImage silently cacheRepository repositoryOverrides doGet |
+  | projectName projectClassName registration description loads loaded projectSelector metacello configurationVersion onConflict onDowngrade onLock onUpgrade ignoreImage silently cacheRepository repositoryOverrides doGet gsDeployerOption |
   self
     getSubcommandOptsMixedLongShort:
       {#('baseline' nil #'none').
       #('cacheRepository' nil #'required').
+      #('className' nil #'required').
       #('configuration' nil #'none').
+      #('deploy' nil #'required').
       #('ignoreImage' nil #'none').
       #('loads' nil #'required').
       #('no-flush' nil #'none').
@@ -34,7 +38,7 @@ projectload
       #('silently' nil #'none').
       #('version' nil #'required')}.
   projectName := subArguments at: 1.
-  registration := self projectRegistrationFor: projectName.
+  registration := self resolveProjectRegistrationReference: projectName.
   description := registration repositorySpec description.
   projectSelector := #'baseline:'.
   subOptions
@@ -75,6 +79,10 @@ projectload
     at: ' repositoryOverrides'
     ifPresent: [ :arg | repositoryOverrides := self resolveRepositoryReference: arg ].
   subOptions
+    at: 'className'
+    ifPresent: [ :arg | projectClassName := arg ]
+    ifAbsent: [ projectClassName := nil ].
+  subOptions
     at: 'loads'
     ifPresent: [ :arg | loads := arg evaluate ]
     ifAbsent: [ 
@@ -85,11 +93,17 @@ projectload
     at: 'no-get'
     ifPresent: [ :ignored | doGet := false ]
     ifAbsent: [ doGet := true ].
+  subOptions
+    at: 'deploy'
+    ifPresent: [ :arg | gsDeployerOption := arg asSymbol ]
+    ifAbsent: [ gsDeployerOption := #'bulk' ].
   ^ self
-    projectLoad: projectName
+    projectLoad: registration projectName
     doGet: doGet
+    gsDeployer: gsDeployerOption
     selector: projectSelector
     repositoryDescription: description
+    className: projectClassName
     loads: loads
     version: configurationVersion
     onConflict: onConflict

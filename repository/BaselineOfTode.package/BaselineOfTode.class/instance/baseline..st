@@ -53,10 +53,7 @@ baseline: spec
                 postLoadDoIt: #'initializeTools';
                 requires: #('Topez-Server-Core') ];
         package: 'Tode-Client-Common'
-          with: [ 
-              spec
-                postLoadDoIt: #'initializeBounds';
-                requires: #('Topez-Common-Core' 'Topez-Pharo-Common') ];
+          with: [ spec requires: #('Topez-Common-Core' 'Topez-Pharo-Common') ];
         package: 'Topez-Client-GemStone'
           with: [ spec requires: #('GemTools-ClientGCI' 'Tode-Client-Common') ];
         package: 'Tode-Client-Pharo'
@@ -84,19 +81,31 @@ baseline: spec
     for: #'gemstone'
     do: [ 
       spec
+        baseline: 'GLASS1'
+          with: [ 
+              spec
+                loads: #('Base');
+                repository: 'github://glassdb/glass:master/repository' ];
+        baseline: 'Metacello'
+          with: [ spec repository: 'github://dalehenrich/metacello-work:master/repository' ];
         baseline: 'RB'
           with: [ 
               spec
                 loads: #('AST-Core');
                 repository: 'github://dalehenrich/rb:dev/repository' ];
         baseline: 'Ston'
-          with: [ spec repository: 'github://dalehenrich/ston:gemstone/repository' ].
+          with: [ spec repository: 'github://dalehenrich/ston:gemstone/repository' ];
+        baseline: 'FileTree'
+          with: [ spec repository: 'github://dalehenrich/filetree:gemstone2.4_dev/repository' ];
+        yourself.
       spec
+        package: 'Tode-AST-Extensions' with: [ spec requires: #('RB') ];
         package: 'Topez-Server-Core'
           with: [ 
               spec
                 postLoadDoIt: #'initializeTools';
-                requires: #('RB') ];
+                requires:
+                    #('Tode-AST-Extensions' 'FileTree' 'GLASS1' 'Metacello') ];
         package: 'Tode-BatchEdit-Tool'
           with: [ spec requires: #('Topez-Server-Core') ];
         package: 'Tode-GemStone-Server-Core'
@@ -123,6 +132,8 @@ baseline: spec
           with: [ spec requires: #('Topez-Server-Core' 'Topez-Server-DebugTools') ];
         package: 'Topez-Server-TestProcessTools'
           with: [ spec requires: #('Topez-Server-ProcessTools' 'Topez-Server-TestTools') ];
+        package: 'Tode-Server-TestTestTools'
+          with: [ spec requires: 'Topez-Server-TestTools' ];
         package: 'Topez-Server-Obsolete'
           with: [ spec requires: #('Topez-Server-Core') ];
         yourself.
@@ -130,10 +141,10 @@ baseline: spec
         group: 'default' with: #('GemStone');
         group: 'GemStone'
           with:
-            #('Tode-GemStone-Server-Core' 'Topez-Server-DebugTools' 'Topez-Server-ProcessTools' 'Topez-Server-TestTools');
+            #('Tode-GemStone-Server-Core' 'Topez-Server-DebugTools' 'Topez-Server-ProcessTools' 'Topez-Server-TestTools' 'Rewrite');
         group: 'GemStone Tests'
           with:
-            #('Common Tests' 'Topez-Server-Tests' 'Topez-Server-TestDebugTools');
+            #('Common Tests' 'Topez-Server-Tests' 'Topez-Server-TestDebugTools' 'Tode-Server-TestTestTools');
         group: 'GemStone Dev' with: #('GemStone' 'GemStone Tests');
         group: 'Rewrite' with: #('Tode-BatchEdit-Tool');
         yourself ].
@@ -207,7 +218,7 @@ baseline: spec
           with: [ spec requires: 'Topez-Server-Core' ];
         yourself ].
   spec
-    for: #(#'gs3.1.x' #'gs3.2.x')
+    for: #(#'gs3.1.x' #'gs3.2.x' #'gs3.3.x')
     do: [ 
       spec
         package: 'Topez-Server-DebugTools'

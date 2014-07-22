@@ -1,3 +1,3 @@
 home
 windowLayoutHome
-	^ self todeHome , 'dev/tode/client/windowLayout/'
+	^ self todeRoot ,  '/client/windowLayout/'

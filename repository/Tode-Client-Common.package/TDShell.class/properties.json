@@ -6,8 +6,10 @@
 		"rootNode" ],
 	"classvars" : [
 		"DebugMode",
+		"DevKitRoot",
 		"EnableDebugger",
-		"TodeHome" ],
+		"TodePath",
+		"WebEditionRoot" ],
 	"commentStamp" : "",
 	"instvars" : [
 		"windowStatus",
