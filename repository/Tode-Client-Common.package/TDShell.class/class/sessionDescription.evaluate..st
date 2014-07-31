@@ -1,6 +1,3 @@
 instance creation
-sessionDescription: sessionDescription evaluate: aCommand
-	| shell |
-	shell := self new.
-	shell sessionDescription: sessionDescription.
-	^shell evaluate: aCommand
+sessionDescription: sessionDescription evaluate: script
+	^ self sessionDescription: sessionDescription evaluate: script debugMode: true
