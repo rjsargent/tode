@@ -5,9 +5,13 @@ name: aString
   ^ (self name endsWith: self stonFileExtension)
     ifTrue: [ 
       | aNode |
-      aNode := self asTDLeafNode name: aString.
+      [ aNode := self asTDLeafNode name: aString ]
+        on: STONReaderError
+        do: [ :ex | super name: aString ].
       super name: aString , self stonFileExtension.
       self fileDirectory
         forceNewFileNamed: aNode name , self stonFileExtension
-        do: [ :fileStream | STONWriter plainTextNewlinesDuring: [ STON put: aNode onStream: fileStream ] ] ]
+        do: [ :fileStream | 
+          STONWriter
+            plainTextNewlinesDuring: [ fileStream nextPutAll: (self objectSerializer toString: aNode) ] ] ]
     ifFalse: [ super name: aString ]

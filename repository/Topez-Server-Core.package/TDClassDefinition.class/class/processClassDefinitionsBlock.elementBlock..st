@@ -11,11 +11,14 @@ processClassDefinitionsBlock: classDefinitionsBlock elementBlock: elementBlock
       i := 1.
       [ result isNil and: [ i <= max ] ]
         whileTrue: [ 
-          (chain1 at: i) = (chain2 at: i)
+          (chain1 at: i) label = (chain2 at: i) label
             ifTrue: [ i := i + 1 ]
-            ifFalse: [ result := (chain1 at: i) name < (chain2 at: i) name ] ].
+            ifFalse: [ result := (chain1 at: i) label < (chain2 at: i) label ] ].
       result isNil
-        ifTrue: [ chain1 size < chain2 size ]
+        ifTrue: [ 
+          chain1 size = chain2 size
+            ifTrue: [ (chain1 at: 1) label < (chain2 at: 1) label ]
+            ifFalse: [ chain1 size < chain2 size ] ]
         ifFalse: [ result ] ].
   classDefinitions := classDefinitionsBlock value.
   classes := (classDefinitions collect: [ :classDef | classDef theClass ])
@@ -25,15 +28,18 @@ processClassDefinitionsBlock: classDefinitionsBlock elementBlock: elementBlock
       | supersChain |
       supersChain := {classDef}.
       classDef theClass
-        ifNotNil: [ :cl | 
-          supersChain := cl withAllSuperclasses reversed.
+        ifNotNil: [ :cls | 
+          supersChain := ({cls} , cls allSuperClasses) reversed.
           supersChain
             removeAllSuchThat: [ :class | (classes includes: class) not ].
           supersChain := supersChain
             collect: [ :cl | 
-              (TDClassDefinition className: cl name)
-                username: classDef username;
-                yourself ] ].
+              cls == cl
+                ifTrue: [ classDef ]
+                ifFalse: [ 
+                  cl asTDClassDefinition
+                    username: classDef username;
+                    yourself ] ] ].
       order add: supersChain -> classDef ].
   indents := IdentityDictionary new.
   order do: [ :assoc | indents at: assoc value put: assoc key size - 1 ].

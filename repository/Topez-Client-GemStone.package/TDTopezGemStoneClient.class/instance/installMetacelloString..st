@@ -1,3 +1,5 @@
 tode installation
-installMetacelloString: aDirectory
-	self filetreeUtilityClass readStreamFor: 'installMetacello.ws' in: aDirectory do: [ :fileStream | ^ fileStream contents ]
+installMetacelloString: options
+	| filePath |
+	filePath := self filePath: 'loadMetacello.ws' fromScriptPathOptions: options.
+	filePath asFileReference readStreamDo: [ :fileStream | ^ fileStream contents ]

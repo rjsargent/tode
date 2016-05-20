@@ -1,0 +1,16 @@
+{
+	"class" : {
+		"gciSession:gci32xErrSType:" : "dkh 4/19/2016 15:20" },
+	"instance" : {
+		"clientObj" : "",
+		"contextOopType" : "",
+		"convertTDEvaluateTokenResponseToText:" : "dkh 4/19/2016 17:05",
+		"defaultAction" : "dkh 5/5/2016 16:14",
+		"defaultRuntimeError" : "dkh 5/5/2016 16:15",
+		"description" : "",
+		"errorNumber" : "",
+		"exceptionOopType" : "",
+		"gci32xErrSType" : "dkh 4/19/2016 15:22",
+		"gci32xErrSType:" : "dkh 4/19/2016 15:22",
+		"gciSession" : "dkh 4/19/2016 15:22",
+		"gciSession:" : "dkh 4/19/2016 15:22" } }

@@ -1,11 +1,13 @@
 {
 	"class" : {
 		"initialize" : "dkh 03/31/2013 10:21",
-		"installExampleOn:" : "dkh 08/14/2013 11:19",
+		"installExampleOn:" : "dkh 03/25/2016 16:59",
 		"installOn:" : "dkh 04/26/2014 09:21",
 		"priority" : "DataCurator 12/20/2012 14:11",
 		"ps" : "dkh 11/10/2013 10:31",
-		"psManPage" : "dkh 01/10/2014 10:14",
+		"psManPage" : "dkh 07/20/2015 10:19",
+		"pslistManPage" : "dkh 10/23/2015 11:59",
+		"psterminateManPage" : "dkh 10/23/2015 11:59",
 		"readMeProcesses" : "DataCurator 12/20/2012 14:07",
 		"testSuiteClasses" : "dkh 04/19/2014 12:04",
 		"toolName" : "DataCurator 12/20/2012 14:10",
@@ -18,8 +20,10 @@
 		"psList" : "dkh 01/09/2014 18:39",
 		"psPortable:" : "dkh 01/10/2014 16:34",
 		"psTerminate:" : "dkh 01/09/2014 18:45",
+		"psTerminateAll" : "dkh 07/20/2015 10:43",
 		"psYield" : "dkh 01/09/2014 19:22",
 		"psdelay" : "dkh 09/13/2013 05:51",
 		"pslist" : "dkh 06/27/2014 10:17",
 		"psportable" : "dkh 01/10/2014 10:15",
+		"psterminate" : "dkh 07/20/2015 10:21",
 		"psyield" : "dkh 01/09/2014 19:23" } }

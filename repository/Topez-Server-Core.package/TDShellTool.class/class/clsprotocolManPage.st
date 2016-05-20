@@ -3,6 +3,7 @@ clsprotocolManPage
   | manPage |
   manPage := TDManPage
     commandName: 'protocol'
+    sourceMethod: self name asString , '>>clsprotocol'
     fromString:
       'NAME
   cls protocol - Define and modify class protocol
@@ -10,7 +11,7 @@ clsprotocolManPage
 SYNOPSIS
   cls protocol [--class] --add=<class-ref> <protocol>...
   cls protocol [--class] --remove=<class-ref> <protocol>...
-  cls protocol [--class] --rename=<class-ref> (<old=protocol> <new=protocol>)... 
+  cls protocol [--class] --rename=<class-ref> (<old-protocol> <new-protocol>)... 
 
 DESCRIPTION
   The `cls protocol` command provides options for creating, removing and renaming

@@ -7,9 +7,10 @@ commitTransaction
     ifFalse: [ 
       | conflicts |
       conflicts := System transactionConflicts.
+      System abortTransaction.
       self
-        error:
-          'Attempt to commit transaction failed. debug to see transaction conflicts.' ] ]
+        notify:
+          'Attempt to commit transaction failed. debug to see transaction conflicts. NOTE: results of last operation have been aborted!' ] ]
     on: Error
     do: [ :ex | 
       "if an error occurs during commit, disable autoCommit and pass"
@@ -17,5 +18,5 @@ commitTransaction
         cr;
         show: 'AUTOCOMMIT DISABLED'.
       self serverStatus autoCommit: false.
-      self topezClientForwarder autoCommitDisabled.
+      self topezClientForwarder perform: #'autoCommitDisabled'.
       ex pass ]

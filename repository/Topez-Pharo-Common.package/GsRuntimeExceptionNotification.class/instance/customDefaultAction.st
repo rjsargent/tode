@@ -2,7 +2,13 @@ accessing
 customDefaultAction
 	| answer |
 	Smalltalk isHeadless
-		ifTrue: [ Error signal: 'GemStone Server error: ' , self description ].
+		ifTrue: [ 
+			^ {#logStack.
+			(self description)} ].
+	self topez shell clientDebugMode
+		ifTrue: [ 
+			(UIManager default confirm:  (self description withNoLineLongerThan: 70) label: 'Debug GemStone Error on Client-side?')
+				ifTrue: [ self halt ] ].
 	answer := UIManager default
 		confirm: (self description withNoLineLongerThan: 80)
 		trueChoice: 'Proceed'
@@ -16,4 +22,4 @@ customDefaultAction
 	answer
 		ifTrue: [ ^ #resume ].
 	^ {#abort.
-	(STON toString: 'Aborted...')}
+	(self topez objectSerializer toString: 'Aborted...')}

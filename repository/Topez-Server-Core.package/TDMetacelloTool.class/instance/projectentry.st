@@ -1,21 +1,35 @@
 project
 projectentry
   "
-  project entry --baseline=<project-name> --repo=<project-repo> <project-path>
-          entry --config=<project-name> [--version=<project-version>] 
-                --repo=<project-repo> <project-path>
+  project entry --baseline=<project-name> --repo=<project-repo> [--loads=<load-expression>] \ 
+                <project-path>
+          entry --config=<project-name> [--version=<project-version>] \
+                --repo=<project-repo> [--loads=<load-expression>] <project-path>
           entry --git=<project-name> [--repo=<git-repo-path>] <project-path>
+          entry --url=<url-for-project-entry.ston> <project-path>
 "
 
-  | repo projectEntry projectNode projectPath |
+  | repo projectEntry projectNode projectPath loads node |
   self
     getSubcommandOptsMixedLongShort:
       {#('config' nil #'required').
+      #('loads' nil #'required').
+      #('git' nil #'required').
       #('version' nil #'required').
       #('repo' nil #'required').
+      #('url' nil #'required').
       #('baseline' nil #'required')}.
-  projectPath := subArguments at: 1.
+  projectPath := subArguments
+    at: 1
+    ifAbsent: [ 
+      self
+        error:
+          'Missing required argument <project-path>. See `man project entry` for more details' ].
   subOptions at: 'repo' ifPresent: [ :arg | repo := arg ].
+  subOptions
+    at: 'loads'
+    ifPresent: [ :arg | loads := arg evaluate ]
+    ifAbsent: [ loads := 'default' ].
   subOptions
     at: 'config'
     ifPresent: [ :arg | 
@@ -30,20 +44,28 @@ projectentry
         configuration: arg
         version: version
         repository: repo
-        loads: 'default' ]
+        loads: loads ]
     ifAbsent: [ 
       subOptions
         at: 'baseline'
         ifPresent: [ :baselineName | 
           projectEntry := TDProjectSpecEntryDefinition new.
           repo ifNil: [ self error: '--repo required' ].
-          projectEntry baseline: baselineName repository: repo loads: 'default' ]
+          projectEntry baseline: baselineName repository: repo loads: loads ]
         ifAbsent: [ 
           subOptions
             at: 'git'
             ifPresent: [ :arg | 
-              projectEntry := TDGitRepositoryEntryDefinition new.
-              projectEntry projectName: arg ]
-            ifAbsent: [ self error: 'one of --config, --git or --baseline required' ] ] ].
+              repo ifNil: [ self error: '--repo required' ].
+              projectEntry := TDGitRepositoryEntryDefinition new
+                projectName: arg;
+                gitRepoDirectoryPath: repo;
+                yourself ]
+            ifAbsent: [ 
+              subOptions
+                at: 'url'
+                ifPresent: [ :url | ^ self projectEntryObjectFromUrl: url nodePath: projectPath ]
+                ifAbsent: [ self error: 'one of --config, --git or --baseline required' ] ] ] ].
   projectEntry status: #(#'active').
-  ^ projectEntry createProjectEntryNode: projectPath topez: self topez
+  node := projectEntry createProjectEntryInNode: projectPath topez: self topez.
+  ^ node dotSelfObject

@@ -38,6 +38,9 @@ installOn: aTDTopezServer
     registerBuilderClass: TDDictionaryNodeBuilder
       for: dictionaryClass
       aspect: #'view';
+    registerBuilderClass: TDSymbolDictionaryNodeBuilder
+      for: SymbolDictionary
+      aspect: #'view';
     registerBuilderClass: TDExecBlockNodeBuilder
       for: execBlockClass
       aspect: #'view';
@@ -100,18 +103,30 @@ installOn: aTDTopezServer
     registerEditorClass: TDMethodDefinitionsElementBuilder
       for: Collection
       aspect: #'methodDefinitionList';
+    registerEditorClass: TDClientButtonBarElementBuilder
+      for: Array
+      aspect: #'buttonBar';
     registerEditorClass: TDConfigurationAndPackageDefinitionsElementBuilder
       for: TDDefinitionList
       aspect: #'definitionList';
     registerEditorClass: TDClassHierarchyListElementBuilder
       for: TDClassDefinition
       aspect: #'hierarchyList';
+    registerEditorClass: TDClassicClassHierarchyListElementBuilder
+      for: TDClassDefinition
+      aspect: #'classicHierarchyList';
+    registerEditorClass: TDClassicClassSelectorListElementBuilder
+      for: TDProtocolDefinition
+      aspect: #'classicProtocolSelectors';
     registerEditorClass: TDClassSelectorListElementBuilder
       for: TDClassDefinition
       aspect: #'classSelectors';
     registerEditorClass: TDClassSelectorListElementBuilder
       for: TDClassDefinition
       aspect: #'instanceSelectors';
+    registerEditorClass: TDClassicClassProtocolListElementBuilder
+      for: TDClassDefinition
+      aspect: #'classicProtocolList';
     registerEditorClass: TDClassProtocolListElementBuilder
       for: TDClassDefinition
       aspect: #'protocolList';
@@ -163,6 +178,9 @@ installOn: aTDTopezServer
       aspect: #'edit';
     registerEditorClass: TDClientCodeElementBuilder
       for: TDObjectGatewayNode
+      aspect: #'edit';
+    registerEditorClass: TDClientCodeElementBuilder
+      for: TDRawGatewayNode
       aspect: #'edit';
     registerEditorClass: TDClientTextElementBuilder
       for: TDTxtLeafNode
