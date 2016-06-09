@@ -1,0 +1,3 @@
+actions
+applyVersionStringToMetacello: aMetacello
+  "noop"

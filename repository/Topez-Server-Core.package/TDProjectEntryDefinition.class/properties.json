@@ -8,9 +8,14 @@
 	"instvars" : [
 		"projectName",
 		"projectPath",
-		"commandMap",
+		"projectNodeName",
 		"status",
-		"gitRootPath" ],
+		"gitRootPath",
+		"gitCheckout",
+		"gitRemoteName",
+		"installScript",
+		"comment",
+		"projectUrl" ],
 	"name" : "TDProjectEntryDefinition",
 	"pools" : [
 		 ],

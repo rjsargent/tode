@@ -6,7 +6,10 @@
 		 ],
 	"commentStamp" : "",
 	"instvars" : [
-		"projectSpec" ],
+		"projectSpec",
+		"isLocked",
+		"preLoadScript",
+		"postLoadScript" ],
 	"name" : "TDProjectSpecEntryDefinition",
 	"pools" : [
 		 ],

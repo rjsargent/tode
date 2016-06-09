@@ -17,4 +17,12 @@ printOn: aStream
     ifFalse: [ aStream nextPutAll: self inClass name asString ].
   aStream nextPutAll: '>>'.
   aStream nextPutAll: self selector.
-  aStream nextPutAll: ' ' , (self process _localStepPointStringAt: self frameIndex)
+  (self process respondsTo: #'_localStepPointStringAt:')
+    ifTrue: [ 
+      aStream
+        nextPutAll:
+          ' ' , (self process perform: #'_localStepPointStringAt:' with: self frameIndex) ]
+    ifFalse: [ 
+      aStream
+        nextPutAll:
+          ' ' , (self process perform: #'_stepPointStringAt:' with: self frameIndex) ]

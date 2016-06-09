@@ -42,6 +42,10 @@ DESCRIPTION
   ----
     tODE help.
 
+  loadServer
+  -----------
+    Load tODE onto the server. See `loadServer -h` for more information.
+
   logout
   ------
     Close all windows associated with the session and logout of remote session. 
@@ -54,20 +58,11 @@ DESCRIPTION
 
   script
   ------
-    Execute client-side scripts. Primarily useful for running a sequence of commands 
-    to install tode on the server. The following sequence of commands:
+    Execute scripts found on the client machine. The script command first looks for
+    the named file in $GS_HOME/sys/local/client/tode-scripts and if the file is not
+    found there it looks in $GS_HOME/sys/default/client/tode-scripts.
 
-      updateServer --clientScriptPath=/opt/git/todeHome/server/scripts
-      bu backup tode.dbf
-      mount /opt/git/todeHome/home /
-      logout
-      bu backup home.dbf
-
-    can be executed by executing a single script command:
-
-      script --script=/opt/git/todeHome/client/scripts/installTode
-
-    where the `installTode` file contains the list of commands to be executed.
+    The primary purpose of the client-side scripts are to bootstrap tODE into a stone.
 
     See `script -h` for more information.
 
@@ -86,14 +81,6 @@ DESCRIPTION
   ------------
     Update the tODE client software. See `updateClient -h` for more information.
 
-  updateServer
-  -----------
-    Install/update tODE on the server. See `updateServer -h` for more information.
-
-  whatsNew
-  --------
-    Description of new features.
-
 EXAMPLES
   builtIns
   close
@@ -107,9 +94,6 @@ EXAMPLES
   sessionDescription -h
   testLogin
   updateClient -h
-  updateServer -h
-  whatsNew
-
 '
 		label: 'Help for tODE built-in commands'.
 	^ 'EXAMPLES
@@ -125,5 +109,4 @@ EXAMPLES
   sessionDescription -h
   testLogin
   updateClient -h
-  whatsNew
 '

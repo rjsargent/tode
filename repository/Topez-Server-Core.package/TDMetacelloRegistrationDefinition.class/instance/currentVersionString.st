@@ -1,5 +1,10 @@
 accessing
 currentVersionString
-  (self isLoadedInImage not and: [ self isBaselineBased ])
-    ifTrue: [ ^ '' ].
-  ^ self registration currentVersionString
+  "the version that is loaded into the current image (i.e., the git commitish of the clone when the project was loaded)"
+
+  currentVersionString
+    ifNil: [ 
+      currentVersionString := (self isLoadedInImage not and: [ self isBaselineBased ])
+        ifTrue: [ '' ]
+        ifFalse: [ self registration currentVersionString ] ].
+  ^ currentVersionString

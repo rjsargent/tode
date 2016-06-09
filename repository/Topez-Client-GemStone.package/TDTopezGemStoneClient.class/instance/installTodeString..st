@@ -1,3 +1,5 @@
-builtins
-installTodeString: aDirectory
-	self filetreeUtilityClass readStreamFor: 'installTode.ws' in: aDirectory do: [ :fileStream | ^ fileStream contents ]
+tode installation
+installTodeString: options
+	| filePath |
+	filePath := self filePath: 'loadTode.ws' fromScriptPathOptions: options.
+	filePath asFileReference readStreamDo: [ :fileStream | ^ fileStream contents ]

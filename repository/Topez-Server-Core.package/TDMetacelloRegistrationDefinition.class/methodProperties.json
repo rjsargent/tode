@@ -1,15 +1,19 @@
 {
 	"class" : {
-		 },
+		"isHybridRegistration:" : "dkh 08/10/2014 17:49",
+		"projectSpec:" : "dkh 06/22/2014 11:17",
+		"registration:" : "dkh 06/30/2014 21:16" },
 	"instance" : {
-		"commitMessageUsing:" : "dkh 05/15/2014 17:41",
+		"baselineClassName" : "dkh 06/20/2014 10:17",
+		"classDefinitions" : "dkh 06/22/2014 11:42",
+		"configurationClassName" : "dkh 06/20/2014 10:17",
 		"configurationProjectSpec" : "dkh 05/16/2014 07:28",
 		"configurationVersionString" : "dkh 05/16/2014 07:04",
-		"currentBranchName" : "dkh 05/20/2014 18:54",
-		"currentVersionString" : "dkh 05/20/2014 18:52",
+		"currentBranchName" : "dkh 10/07/2014 09:59",
+		"currentVersionString" : "dkh 11/18/2015 15:14",
 		"diffProjectUsing:" : "dkh 05/15/2014 17:41",
 		"emphasis" : "dkh 05/20/2014 18:49",
-		"entry" : "dkh 05/19/2014 11:52",
+		"entry" : "dkh 10/27/2015 18:04",
 		"hasVersionSkew" : "dkh 05/15/2014 06:34",
 		"isDirty" : "dkh 05/30/2014 07:30",
 		"isLoadedInImage" : "dkh 05/20/2014 18:47",
@@ -20,7 +24,7 @@
 		"registration:" : "dkh 05/08/2014 14:52",
 		"revertProjectUsing:" : "dkh 05/15/2014 17:41",
 		"saveProjectUsing:commitMessage:" : "dkh 05/15/2014 17:41",
-		"unregister" : "dkh 05/21/2014 07:27",
+		"unregister" : "dkh 10/29/2015 10:06",
 		"updateRegistrationVersionInfo:" : "dkh 05/15/2014 21:08",
 		"versionInfo" : "dkh 05/14/2014 21:14",
-		"versionString" : "dkh 05/20/2014 19:33" } }
+		"versionString" : "dkh 11/18/2015 15:13" } }

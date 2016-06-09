@@ -8,7 +8,6 @@ miniToolSpec
         menuActionSpecBlock: self menuActionSpecBlock
         menuActionBlock: self menuActionBlock
         itemSelectedBlock: self itemSelectedBlock
-        keyboardActionBlock: self keyboardActionBlock
         windowIsClosingBlock: self windowIsClosingBlock)
         windowLabel: self windowLabel;
         windowId: self windowId;
@@ -17,5 +16,7 @@ miniToolSpec
         selectionIndex: self selectionIndex;
         highlightIndex: self highlightIndex;
         parentList: self parentList;
+        beMultipleSelection: self beMultipleSelection;
+        usePersistentClientElementCache: self usePersistentClientElementCache;
         yourself ].
   ^ miniToolSpec

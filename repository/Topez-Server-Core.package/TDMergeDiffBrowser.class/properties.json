@@ -6,7 +6,9 @@
 		 ],
 	"commentStamp" : "",
 	"instvars" : [
-		"merger" ],
+		"merger",
+		"stFilterBlock",
+		"selectedOperations" ],
 	"name" : "TDMergeDiffBrowser",
 	"pools" : [
 		 ],

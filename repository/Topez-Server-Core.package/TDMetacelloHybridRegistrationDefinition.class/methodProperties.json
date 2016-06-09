@@ -1,0 +1,18 @@
+{
+	"class" : {
+		 },
+	"instance" : {
+		"applyVersionStringToMetacello:" : "dkh 06/20/2014 10:28",
+		"baselineClassName" : "dkh 06/20/2014 10:23",
+		"baselineProjectSpec" : "dkh 07/06/2014 08:59",
+		"cloneProjectSpec" : "dkh 06/30/2014 21:01",
+		"configurationClassName" : "dkh 06/20/2014 10:14",
+		"createTemplateProjectEntry:" : "dkh 10/28/2015 15:48",
+		"currentVersionString" : "dkh 11/18/2015 15:14",
+		"hasGitBasedRepo" : "dkh 09/29/2014 12:45",
+		"hybridBaselineProjectSpec" : "dkh 06/30/2014 21:02",
+		"hybridRepositorySpec" : "dkh 06/30/2014 20:55",
+		"isHybridBased" : "dkh 06/19/2014 17:41",
+		"projectSelector" : "dkh 06/20/2014 10:21",
+		"workingCopies" : "dkh 07/06/2014 09:00",
+		"workingCopiesForCommit" : "dkh 07/06/2014 09:00" } }

@@ -3,7 +3,7 @@
 		 },
 	"instance" : {
 		"browseFullClassMenuAction:selectionIndex:" : "dkh 05/30/2014 11:19",
-		"browseFullMethodMenuAction:selectionIndex:" : "dkh 05/30/2014 11:46",
+		"browseFullMethodMenuAction:selectionIndex:" : "dkh 06/03/2014 14:21",
 		"browseImplementorsMenuAction:selectionIndex:" : "dkh 05/30/2014 11:52",
 		"browseSendersMenuAction:selectionIndex:" : "dkh 05/30/2014 11:54",
 		"clientList:listElement:" : "dkh 05/10/2014 19:42",
@@ -15,6 +15,7 @@
 		"installSourceMenuAction:selectionIndex:" : "dkh 05/30/2014 15:09",
 		"itemSelected:listElement:selectedIndex:shiftPressed:" : "dkh 05/30/2014 11:14",
 		"menuActionSpec:" : "dkh 05/09/2014 16:03",
+		"mergerWindowClosing" : "dkh 05/16/2016 16:09",
 		"operations" : "dkh 05/09/2014 14:54",
 		"operationsMenuActionSpec" : "dkh 05/09/2014 14:45",
 		"selectDestinationDefinitionMenuAction:selectionIndex:" : "dkh 05/29/2014 21:07",

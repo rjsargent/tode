@@ -17,7 +17,12 @@ browseclass
       | cls clsNamePattern |
       subArguments size > 1
         ifTrue: [ ^ TodeCommandError signal: 'Only one argument allowed when using --full option' ].
-      clsNamePattern := subArguments at: 1.
+      clsNamePattern := subArguments
+        at: 1
+        ifAbsent: [ 
+          self
+            error:
+              'Missing required argument <class-name>. See `man browse class` for more details' ].
       cls := Smalltalk
         at: clsNamePattern
         ifAbsent: [ ^ self browseClasses: {} label: 'No class matching ' , clsNamePattern ].
@@ -25,20 +30,5 @@ browseclass
   pattern := ''.
   subArguments do: [ :arg | pattern := pattern , ' ' , arg ].
   label := 'Classes matching' , pattern.
-  block := [ 
-  | list |
-  list := Set new.
-  subArguments
-    do: [ :clsNamePattern | 
-      subOptions
-        at: 'exact'
-        ifPresent: [ :ignored | list addAll: (self findClassExact: clsNamePattern) ]
-        ifAbsent: [ list addAll: (self findClass: clsNamePattern) ] ].
-  subOptions
-    at: 'hier'
-    ifPresent: [ :ignored | 
-      | classNames |
-      classNames := list collect: [ :cls | cls className asString ].
-      list := self findClassHierarchy: classNames ].
-  list := self filterBrowseList: list ].
+  block := [ self findClass ].
   ^ self browseClassesBlock: block label: label

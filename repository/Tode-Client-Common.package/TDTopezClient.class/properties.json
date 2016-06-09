@@ -3,15 +3,10 @@
 	"classinstvars" : [
 		"bounds",
 		"windowOffset",
-		"codeWindowHeight",
-		"codeWindowWidth",
-		"listWindowWidth",
-		"windowOrigin",
-		"shellWindowHeight",
-		"debuggerWindowWidth" ],
+		"windowProperties",
+		"notifier" ],
 	"classvars" : [
-		"Bounds",
-		"SessionMap" ],
+		"Bounds" ],
 	"commentStamp" : "",
 	"instvars" : [
 		"shell",
@@ -22,7 +17,10 @@
 		"setExceptionMessage",
 		"resetObjInMessage",
 		"openDebuggerMessage",
-		"tabCompletionMessage" ],
+		"logStackMessage",
+		"tabCompletionMessage",
+		"objectSerializer",
+		"eventCache" ],
 	"name" : "TDTopezClient",
 	"pools" : [
 		 ],

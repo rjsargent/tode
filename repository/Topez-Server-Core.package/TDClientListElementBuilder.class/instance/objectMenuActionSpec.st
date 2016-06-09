@@ -1,6 +1,6 @@
 menu action specs
 objectMenuActionSpec
-  ^ {#('browse code' $B #'browseFullClassMenuAction:selectionIndex:').
-  #('inspect' nil #'inspectObjectMenuAction:selectionIndex:').
+  ^ {#('inspect' nil #'inspectObjectMenuAction:selectionIndex:').
   #('print' $p #'printObjectMenuAction:selectionIndex:').
-  #('references' $N #'browseReferencesMenuAction:selectionIndex:')}
+  #('-').
+  #('workspace' 'esc' #'openWorkspaceMenuAction:selectionIndex:')}

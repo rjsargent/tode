@@ -1,3 +1,3 @@
-as yet unclassified
+ston
 excludedInstVarNames
-  ^ super excludedInstVarNames , #(#'inClass')
+  ^ super excludedInstVarNames , #(#'inClass' #'spawnCopyBlock')

@@ -22,16 +22,17 @@ gitVersionSkewSaveProjectMenuAction: listElement selectionIndex: selectionIndex
         , targetBranch , '(' , targetSHA , ')')
     signal.
   commitMessage ifNil: [ ^ false ].
-  result := gitTool
+  [ 
+  gitTool
     gitcheckoutIn: gitRepoDirectory
-    with: '-b ' , mergeBranchName , ' ' , baseSHA.
-  (result beginsWith: 'fatal:')
-    ifTrue: [ ^ false ].
+    with: '-b ' , mergeBranchName , ' ' , baseSHA ]
+    on: Error
+    do: [ :ex | ^ false ].
   registration saveProjectUsing: self projectTool commitMessage: commitMessage.
-  result := gitTool gitcheckoutIn: gitRepoDirectory with: targetBranch.
-  (result beginsWith: 'fatal:')
-    ifTrue: [ ^ false ].
-  self self projectTool
+  [ gitTool gitcheckoutIn: gitRepoDirectory with: targetBranch ]
+    on: Error
+    do: [ :ex | ^ false ].
+  self projectTool
     projectMerge: registration
     commitish: mergeBranchName
     gitRepoDirectory: gitRepoDirectory.

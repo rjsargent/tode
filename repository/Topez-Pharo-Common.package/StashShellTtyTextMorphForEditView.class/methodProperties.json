@@ -2,5 +2,7 @@
 	"class" : {
 		 },
 	"instance" : {
-		"editorClass" : "dkh 10/16/2012 11:16",
-		"keyStroke:" : "dkh 10/27/2012 22:05" } }
+		"editorClass" : "dkh 6/18/2014 20:03",
+		"filterAndForwardEvent:" : "dkh 12/17/2014 20:35",
+		"handleKeystroke:" : "dkh 7/30/2014 17:48",
+		"keyStroke:" : "dkh 12/17/2014 20:30" } }

@@ -2,12 +2,12 @@ as yet unclassified
 installExampleOn: aTDTopezServer
   | examplesNode |
   (aTDTopezServer ensureChildrenExistIn: '/examples')
-    addChildNode:
+    _addBasicChildNode:
         (TDSmalltalkLeafNode new
             name: 'st';
             contents: '3+4';
             yourself);
-    addChildNode:
+    _addBasicChildNode:
         (TDTxtLeafNode new
             name: 'text';
             contents:
@@ -20,7 +20,7 @@ installExampleOn: aTDTopezServer
                           (TextEmphasis bold)})
                     , ' text.' asText;
             yourself);
-    addChildNode:
+    _addBasicChildNode:
         (TDTxtLeafNode new
             name: 'analysis';
             contents:
@@ -30,12 +30,12 @@ installExampleOn: aTDTopezServer
 =============================='
                     attributes: {(TextEmphasis bold)});
             yourself);
-    addChildNode:
+    _addBasicChildNode:
         (TDTopezLeafNode new
             name: 'topez';
             contents: 'cat /home/.window/model';
             yourself);
-    addChildNode:
+    _addBasicChildNode:
         (TDScriptLeafNode new
             name: 'script';
             block: [ :topez :objIn :tokens :windowId | 'hello world' ];
@@ -43,6 +43,9 @@ installExampleOn: aTDTopezServer
             manPage:
                 (TDManPage
                     commandName: 'script'
+                    commandPath: '/home/script'
+                    sourceMethod:
+                      self name asString , ' class>>installExampleOn:'
                     fromString:
                       'NAME
   script - simple demo of a topez script
@@ -55,13 +58,10 @@ DESCRIPTION
   behavior. To create another script try:
 
     touch sh <script-name>
-'
-                    commandPath: '/home/script'
-                    sourceMethod:
-                      self name asString , ' class>>installExampleOn:') yourself);
-    yourself.
+'))
+            yourself.
   (aTDTopezServer lookup: self commandPath)
-    addChildNode:
+    _addBasicChildNode:
       (examplesNode := TDDirectoryNode new
         name: 'examples';
         readMe:
@@ -70,7 +70,7 @@ DESCRIPTION
   shellInit - initialize topez system ... relogin afterwards';
         yourself).
   examplesNode
-    addChildNode:
+    _addBasicChildNode:
         (TDTopezLeafNode new
             name: 'runEx';
             contents:
@@ -83,7 +83,7 @@ run | run
 self + 3
 %';
             yourself);
-    addChildNode:
+    _addBasicChildNode:
         (TDSmalltalkLeafNode new
             name: 'shellInit';
             contents:

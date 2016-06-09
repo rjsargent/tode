@@ -1,7 +1,7 @@
 as yet unclassified
 childNamed: elementName parent: parentNode ifAbsent: absentBlock
   | obj |
-  (#('(class)' '(oop)') includes: elementName)
+  (self basicChildNameListDisplayOops includes: elementName)
     ifTrue: [ 
       obj := self
         objectValueForSpecialElementName: elementName

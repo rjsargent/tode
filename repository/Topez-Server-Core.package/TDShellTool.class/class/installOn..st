@@ -11,7 +11,7 @@ installOn: aTDTopezServer
 	 #navigate - structural access via navigator
 	 CUSTOM    - custom names for specialized window access"
 
-  | optionsNode compiledMethodClass dictionaryClass stringClass |
+  | optionsNode compiledMethodClass dictionaryClass stringClass execBlockClass |
   (aTDTopezServer ensureChildrenExistIn: '/home')
     readMe: self homeReadMe;
     yourself.
@@ -25,6 +25,9 @@ installOn: aTDTopezServer
   dictionaryClass := Smalltalk
     at: #'AbstractDictionary'
     ifAbsent: [ Smalltalk at: #'Dictionary' ].
+  execBlockClass := Smalltalk
+    at: #'ExecBlock'
+    ifAbsent: [ Smalltalk at: #'ExecutableBlock' ].
   stringClass := Smalltalk
     at: #'CharacterCollection'
     ifAbsent: [ Smalltalk at: #'String' ].
@@ -35,6 +38,12 @@ installOn: aTDTopezServer
     registerBuilderClass: TDDictionaryNodeBuilder
       for: dictionaryClass
       aspect: #'view';
+    registerBuilderClass: TDSymbolDictionaryNodeBuilder
+      for: SymbolDictionary
+      aspect: #'view';
+    registerBuilderClass: TDExecBlockNodeBuilder
+      for: execBlockClass
+      aspect: #'view';
     registerEditorClass: TDClientSourceElementBuilder
       for: stringClass
       aspect: #'edit';
@@ -42,13 +51,6 @@ installOn: aTDTopezServer
       for: stringClass
       aspect: #'workspace';
     yourself.
-  Smalltalk
-    at: #'TDObjectLog'
-    ifPresent: [ :cl | 
-      TDTopezServer
-        registerEditorClass: TDObjectLogElementBuilder
-        for: cl
-        aspect: #'logEntries' ].
   TDTopezServer
     registerBuilderClass: TDObjectNodeBuilder for: Object aspect: #'view';
     registerBuilderClass: TDObjectNodeBuilder for: Object aspect: #'inspect';
@@ -83,7 +85,7 @@ installOn: aTDTopezServer
     registerBuilderClass: TDUnorderedCollectionNodeBuilder
       for: UnorderedCollection
       aspect: #'view';
-    registerBuilderClass: TDUnorderedCollectionNodeBuilder
+    registerBuilderClass: TDObjectNodeBuilder
       for: UnorderedCollection
       aspect: #'inspect';
     registerEditorClass: TDMiniToolClientListElementBuilder
@@ -101,18 +103,33 @@ installOn: aTDTopezServer
     registerEditorClass: TDMethodDefinitionsElementBuilder
       for: Collection
       aspect: #'methodDefinitionList';
+    registerEditorClass: TDClientButtonBarElementBuilder
+      for: Array
+      aspect: #'buttonBar';
     registerEditorClass: TDConfigurationAndPackageDefinitionsElementBuilder
       for: TDDefinitionList
       aspect: #'definitionList';
     registerEditorClass: TDClassHierarchyListElementBuilder
       for: TDClassDefinition
       aspect: #'hierarchyList';
+    registerEditorClass: TDClassicClassHierarchyListElementBuilder
+      for: TDClassDefinition
+      aspect: #'classicHierarchyList';
+    registerEditorClass: TDClassicClassSelectorListElementBuilder
+      for: TDProtocolDefinition
+      aspect: #'classicProtocolSelectors';
     registerEditorClass: TDClassSelectorListElementBuilder
       for: TDClassDefinition
       aspect: #'classSelectors';
     registerEditorClass: TDClassSelectorListElementBuilder
       for: TDClassDefinition
       aspect: #'instanceSelectors';
+    registerEditorClass: TDClassicClassProtocolListElementBuilder
+      for: TDClassDefinition
+      aspect: #'classicProtocolList';
+    registerEditorClass: TDClassProtocolListElementBuilder
+      for: TDClassDefinition
+      aspect: #'protocolList';
     registerEditorClass: TDClassDefinitionClientElementBuilder
       for: Class
       aspect: #'classDefinition';
@@ -161,6 +178,9 @@ installOn: aTDTopezServer
       aspect: #'edit';
     registerEditorClass: TDClientCodeElementBuilder
       for: TDObjectGatewayNode
+      aspect: #'edit';
+    registerEditorClass: TDClientCodeElementBuilder
+      for: TDRawGatewayNode
       aspect: #'edit';
     registerEditorClass: TDClientTextElementBuilder
       for: TDTxtLeafNode

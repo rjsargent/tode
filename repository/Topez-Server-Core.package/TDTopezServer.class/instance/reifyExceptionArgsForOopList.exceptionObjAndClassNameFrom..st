@@ -1,4 +1,4 @@
-accessing
+client callbacks
 reifyExceptionArgsForOopList: oopList exceptionObjAndClassNameFrom: errNum
   "sent by client on GemStone2.4.x stone"
 
@@ -10,10 +10,14 @@ reifyExceptionArgsForOopList: oopList exceptionObjAndClassNameFrom: errNum
       each isClass
         ifTrue: [ each name ]
         ifFalse: [ each ] ].
-  exception := (Smalltalk at: #'ExceptionA') gsNumber: errNum arguments: args.
+  exception := (Smalltalk at: #'ExceptionA')
+    perform: #'gsNumber:arguments:'
+    withArguments:
+      {errNum.
+      args}.
   exceptionInfo := {(exception asOop).
   (exception class name)}.
-  result := STON
+  result := self objectSerializer
     toString:
       {objects.
       exceptionInfo}.

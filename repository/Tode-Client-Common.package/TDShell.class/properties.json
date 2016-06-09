@@ -1,13 +1,15 @@
 {
 	"category" : "Tode-Client-Common",
 	"classinstvars" : [
-		"commands",
-		"subCommands",
-		"rootNode" ],
+		"currentShell" ],
 	"classvars" : [
 		"DebugMode",
+		"DevKitRoot",
 		"EnableDebugger",
-		"TodeHome" ],
+		"TodeClientRoot",
+		"TodePath",
+		"TodeRoot",
+		"UseTodeSys" ],
 	"commentStamp" : "",
 	"instvars" : [
 		"windowStatus",
@@ -24,7 +26,10 @@
 		"sessionName",
 		"sessionDescription",
 		"history",
-		"historyIndex" ],
+		"historyIndex",
+		"debugMode",
+		"batchMode",
+		"clientDebugMode" ],
 	"name" : "TDShell",
 	"pools" : [
 		 ],

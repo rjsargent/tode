@@ -19,7 +19,7 @@ testLoginGciVersionMismatch: ex
 		nextPutAll: 'Unable to connect to netLDI ' , netLDI printString , ' on host ' , stoneHost printString , '.';
 		cr;
 		tab;
-		nextPutAll: 'The gci library ' , gciLibraryName printString , ' you are using is not compatable';
+		nextPutAll: 'The gci library ' , gciLibraryName printString , ' you are using may not be compatable with';
 		cr;
 		tab;
 		nextPutAll:
@@ -33,6 +33,10 @@ testLoginGciVersionMismatch: ex
 		cr;
 		tab;
 		nextPutAll: 'on host ' , stoneHost printString , '.';
+		cr;
+		cr;
+		tab;
+		nextPutAll: 'NOTE: netldi log can be found in the file: ''$GS_HOME/server/stones/', stoneName, '/logs/netldi.log''.';
 		cr;
 		tab;
 		yourself.

@@ -1,26 +1,36 @@
 project
 projectload
   "
-  project load [--loads=<load-expression>] \
-               [--no-flush] [--no-get] \
-               [ (--baseline | --configuration --version=<version> ) ] \
-               [--repository=<repository-reference>] \
-               [--onConflict=useIncoming|useExisting] \
-               [--onDowngrade=useIncoming|useExisting] \
-               [--onLock=break|honor] \
-               [--onUpgrade=useIncoming|useExisting] \
-               [--ignoreImage] [--silently] \
-               [--cacheRepository=@<repository-reference>] \
-               [--repositoryOverrides=@<repository-reference>] \
-               <project-name>
+  project load [--loads=<load-expression>]
+               [--className=<project-class-name]
+               [--no-flush] [--no-get]
+               [ (--baseline | --configuration --version=<version> ) ]
+               [--repository=<repository-reference>]
+               [--onConflict=useNew|useExisting]
+               [--onDowngrade=useNew|useExisting]
+               [--onLock=break|honor]
+               [--onUpgrade=useNew|useExisting]
+               [--ignoreImage] [--silently]
+               [--cacheRepository=@<repository-reference>]
+               [--repositoryOverrides=@<repository-reference>]
+               [--deploy=auto|bulk|none]
+               [--basic] [--install] [--url=<project-entry-url> [--local|--stone]]
+               ( <project-name> | @<project-reference> )
 "
 
-  | projectName registration description loads loaded projectSelector metacello configurationVersion onConflict onDowngrade onLock onUpgrade ignoreImage silently cacheRepository repositoryOverrides doGet |
+  | projectName projectClassName registration description loads loaded projectSelector metacello configurationVersion onConflict onDowngrade onLock onUpgrade ignoreImage silently cacheRepository repositoryOverrides doGet gsDeployerOption repository projectLoadSpec projectPath |
   self
     getSubcommandOptsMixedLongShort:
       {#('baseline' nil #'none').
+      #('basic' nil #'none').
+      #('url' nil #'required').
+      #('install' nil #'none').
+      #('local' nil #'none').
+      #('stone' nil #'none').
       #('cacheRepository' nil #'required').
+      #('className' nil #'required').
       #('configuration' nil #'none').
+      #('deploy' nil #'required').
       #('ignoreImage' nil #'none').
       #('loads' nil #'required').
       #('no-flush' nil #'none').
@@ -33,12 +43,44 @@ projectload
       #('repositoryOverrides' nil #'required').
       #('silently' nil #'none').
       #('version' nil #'required')}.
-  projectName := subArguments at: 1.
-  registration := self projectRegistrationFor: projectName.
-  description := registration repositorySpec description.
-  projectSelector := #'baseline:'.
+  ((subOptions includesKey: 'url') or: [ subOptions includesKey: 'install' ])
+    ifTrue: [ 
+      subOptions
+        at: 'url'
+        ifPresent: [ :url | 
+          | projectEntry projectPath |
+          subOptions
+            at: 'stone'
+            ifPresent: [ :ignored | projectPath := TDProjectEntryDefinition sys_stone_projects ]
+            ifAbsent: [ 
+              "--local default"
+              projectPath := TDProjectEntryDefinition sys_local_server_projects ].
+          projectEntry := self
+            projectEntryObjectFromUrl: url
+            nodePath: projectPath.
+          projectName := projectEntry projectName ].
+      subOptions
+        at: 'install'
+        ifPresent: [ :ignored | 
+          projectName := subArguments
+            at: 1
+            ifAbsent: [ 
+              self
+                error:
+                  'Missing required argument ( <project-name> | @<project-reference> ). See `man project load` for more details' ] ].
+      registration := self resolveProjectRegistrationReference: projectName.
+      self projectInstallFor: registration ]
+    ifFalse: [ 
+      projectName := subArguments
+        at: 1
+        ifAbsent: [ 
+          self
+            error:
+              'Missing required argument ( <project-name> | @<project-reference> ). See `man project load` for more details' ].
+      registration := self resolveProjectRegistrationReference: projectName ].
   subOptions
     at: 'baseline'
+    ifPresent: [ projectSelector := #'baseline:' ]
     ifAbsent: [ 
       subOptions
         at: 'configuration'
@@ -57,15 +99,27 @@ projectload
                         copyFrom: 2
                         to: configurationVersion size - 1 ].
                   configurationVersion := configurationVersion asSymbol ]
-                ifFalse: [ configurationVersion := arg ] ] ] ].
-  subOptions at: 'no-flush' ifAbsent: [ self repositoryFlush ].
+                ifFalse: [ configurationVersion := arg ] ]
+            ifAbsent: [ configurationVersion := registration configurationVersionString ] ]
+        ifAbsent: [ 
+          projectSelector := registration projectSelector.
+          configurationVersion := registration configurationVersionString ] ].
   subOptions
     at: 'repository'
-    ifPresent: [ :arg | description := (self resolveRepositoryReference: arg) description ].
-  subOptions at: 'onConflict' ifPresent: [ :arg | onConflict := arg asSymbol ].
-  subOptions at: 'onDowngrade' ifPresent: [ :arg | onConflict := arg asSymbol ].
-  subOptions at: 'onLock' ifPresent: [ :arg | onConflict := arg asSymbol ].
-  subOptions at: 'onUpgrade' ifPresent: [ :arg | onConflict := arg asSymbol ].
+    ifPresent: [ :arg | repository := self resolveRepositoryReference: arg ]
+    ifAbsent: [ repository := registration repository ].
+  description := repository description.
+  subOptions at: 'no-flush' ifAbsent: [ repository flushCache ].
+  subOptions
+    at: 'onConflict'
+    ifPresent: [ :arg | onConflict := arg asSymbol ]
+    ifAbsent: [ onConflict := #'useIncoming' ].
+  subOptions at: 'onDowngrade' ifPresent: [ :arg | onDowngrade := arg asSymbol ].
+  subOptions
+    at: 'onLock'
+    ifPresent: [ :arg | onLock := arg asSymbol ]
+    ifAbsent: [ onLock := #'honor' ].
+  subOptions at: 'onUpgrade' ifPresent: [ :arg | onUpgrade := arg asSymbol ].
   subOptions at: 'ignoreImage' ifPresent: [ :arg | ignoreImage := true ].
   subOptions at: 'silently' ifPresent: [ :arg | silently := true ].
   subOptions
@@ -75,28 +129,51 @@ projectload
     at: ' repositoryOverrides'
     ifPresent: [ :arg | repositoryOverrides := self resolveRepositoryReference: arg ].
   subOptions
-    at: 'loads'
-    ifPresent: [ :arg | loads := arg evaluate ]
-    ifAbsent: [ 
-      registration loads
-        ifNotNil: [ :loadList | loads := loadList ]
-        ifNil: [ loads := 'default' ] ].
+    at: 'className'
+    ifPresent: [ :arg | projectClassName := arg ]
+    ifAbsent: [ projectClassName := nil ].
+  registration loads
+    ifNotNil: [ :loadList | 
+      loads := loadList.
+      loads isArray
+        ifFalse: [ loads := loads asArray ] ]
+    ifNil: [ loads := {'default'} ].
+  subOptions at: 'loads' ifPresent: [ :arg | loads := loads , arg evaluate ].
   subOptions
     at: 'no-get'
     ifPresent: [ :ignored | doGet := false ]
     ifAbsent: [ doGet := true ].
-  ^ self
-    projectLoad: projectName
-    doGet: doGet
-    selector: projectSelector
-    repositoryDescription: description
-    loads: loads
-    version: configurationVersion
-    onConflict: onConflict
-    onDowngrade: onDowngrade
-    onLock: onLock
-    onUpgrade: onUpgrade
-    ignoreImage: ignoreImage
-    silently: silently
-    cacheRepository: cacheRepository
-    repositoryOverrides: repositoryOverrides
+  subOptions
+    at: 'deploy'
+    ifPresent: [ :arg | gsDeployerOption := arg asSymbol ]
+    ifAbsent: [ gsDeployerOption := #'bulk' ].
+  subOptions
+    at: 'stone'
+    ifPresent: [ :ignored | projectPath := TDProjectEntryDefinition sys_stone_projects ]
+    ifAbsent: [ 
+      "--local default"
+      projectPath := TDProjectEntryDefinition sys_local_server_projects ].
+  projectLoadSpec := TDMetacelloToolProjectLoadSpec new
+    projectName: registration projectName;
+    doGet: doGet;
+    gsDeployerOption: gsDeployerOption;
+    projectSelector: projectSelector;
+    repositoryDescription: description;
+    projectClassName: projectClassName;
+    loads: loads;
+    configurationVersion: configurationVersion;
+    onConflict: onConflict;
+    onDowngrade: onDowngrade;
+    onLock: onLock;
+    onUpgrade: onUpgrade;
+    ignoreImage: ignoreImage;
+    silently: silently;
+    cacheRepository: cacheRepository;
+    repositoryOverrides: repositoryOverrides;
+    yourself.
+  ^ subOptions
+    at: 'basic'
+    ifPresent: [ :ignored | self basicProjectLoadFromSpec: projectLoadSpec ]
+    ifAbsent: [ 
+      "run pre/post load scripts for project entry"
+      self projectLoadFromSpec: projectLoadSpec registration: registration ]

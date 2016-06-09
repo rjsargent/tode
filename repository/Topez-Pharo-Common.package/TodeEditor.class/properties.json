@@ -8,12 +8,13 @@
 	"instvars" : [
 		"topez",
 		"listEditor",
+		"buttonBarEditor",
 		"codeEditor",
-		"roassalEditor",
 		"activeEditor",
 		"label",
 		"windowId",
-		"updating" ],
+		"updating",
+		"objectExplorerEditor" ],
 	"name" : "TodeEditor",
 	"pools" : [
 		 ],

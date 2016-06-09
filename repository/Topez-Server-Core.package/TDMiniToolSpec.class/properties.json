@@ -9,9 +9,10 @@
 		"builder",
 		"clientListBlock",
 		"itemSelectedBlock",
-		"keyboardActionBlock",
 		"menuActionBlock",
-		"menuActionSpecBlock" ],
+		"menuActionSpecBlock",
+		"beMultipleSelection",
+		"usePersistentClientElementCache" ],
 	"name" : "TDMiniToolSpec",
 	"pools" : [
 		 ],

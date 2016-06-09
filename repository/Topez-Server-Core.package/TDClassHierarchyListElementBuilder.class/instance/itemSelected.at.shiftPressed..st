@@ -1,7 +1,9 @@
-as yet unclassified
+tools
 itemSelected: listElement at: index shiftPressed: shiftPressed
   | aspect classDef itemAttribute classDefClientElement instanceSelClientElement classSelClientElement stonArray |
   index ifNil: [ ^ nil ].
+  index > listElement itemCache size
+    ifTrue: [ ^ nil ].
   itemAttribute := listElement itemCache at: index.
   classDef := itemAttribute object.
   aspect := itemAttribute aspect.
@@ -42,4 +44,5 @@ itemSelected: listElement at: index shiftPressed: shiftPressed
         addAll:
           {#'editStonElement:'.
           hierarchyClientElement} ].
-  ^ STON toString: stonArray
+  stonArray addAll: (self enableDisableMenuItems: classDef).
+  ^ listElement objectSerializer toString: stonArray

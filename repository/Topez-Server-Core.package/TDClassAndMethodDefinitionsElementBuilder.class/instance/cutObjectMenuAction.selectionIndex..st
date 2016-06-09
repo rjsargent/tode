@@ -4,9 +4,8 @@ cutObjectMenuAction: listElement selectionIndex: selectionIndex
   itemAttribute := listElement itemCache at: selectionIndex.
   def := itemAttribute object.
   self objectClipboard: def.
-  def removeFromSystem.
-  listElement topez commitTransaction.
-  ^ STON
+  def removeFromSystem: listElement topez.
+  ^ listElement objectSerializer
     toString:
       {#'refreshList'.
       nil.

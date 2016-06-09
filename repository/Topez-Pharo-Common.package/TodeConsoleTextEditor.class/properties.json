@@ -1,0 +1,14 @@
+{
+	"category" : "Topez-Pharo-Common-Console",
+	"classinstvars" : [
+		 ],
+	"classvars" : [
+		 ],
+	"commentStamp" : "",
+	"instvars" : [
+		 ],
+	"name" : "TodeConsoleTextEditor",
+	"pools" : [
+		 ],
+	"super" : "TextEditor",
+	"type" : "normal" }

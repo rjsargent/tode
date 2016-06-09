@@ -1,9 +1,12 @@
 as yet unclassified
 _extractPackageDefinitions
-  | version defs |
-  version := self projectSpec version.
+  | registrationDef defs |
   defs := Dictionary new.
-  version ifNil: [ ^ defs ].
-  version packages
-    do: [ :pkg | defs at: pkg name put: (TDMcPackageDefinition new packageName: pkg name) ].
+  registrationDef := self projectRegistrationDef.
+  registrationDef ifNil: [ ^ defs ].
+  registrationDef workingCopies
+    do: [ :wc | 
+      defs
+        at: wc packageName
+        put: (TDMcPackageDefinition new packageName: wc packageName) ].
   ^ defs

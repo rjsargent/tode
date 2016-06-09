@@ -9,18 +9,7 @@ man
 "
 
   | command commandNode page |
-  options
-    at: 'all'
-    ifPresent: [ :ignored | 
-      | manPages browser |
-      browser := TDManPageBrowser new
-        topez: topez;
-        windowLabel: 'All man pages';
-        windowName: #'manPageAll';
-        manPagesBlock: [ self topez commands values collect: [ :cmd | cmd manPage ] ];
-        yourself.
-      browser open.
-      ^ browser manPages ].
+  options at: 'all' ifPresent: [ :ignored | ^ self manAll ].
   options
     at: 'class'
     ifPresent: [ :ignored | 
@@ -67,7 +56,12 @@ man
         yourself.
       browser open.
       ^ browser manPages ].
-  command := arguments at: 1.
+  command := arguments
+    at: 1
+    ifAbsent: [ 
+      self
+        error:
+          'Missing required argument (<command-name> | @<command-path>). See `man man` for details.' ].
   commandNode := (command beginsWith: '@')
     ifTrue: [ self resolveAtPathNodeReference: command ]
     ifFalse: [ topez commands at: (tokens at: 2) ].

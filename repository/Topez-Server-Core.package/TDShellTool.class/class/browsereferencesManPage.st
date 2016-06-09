@@ -3,6 +3,7 @@ browsereferencesManPage
   | manPage |
   manPage := TDManPage
     commandName: 'references'
+    sourceMethod: self name asString , '>>browsereferences'
     fromString:
       'NAME
   browse references - Find and view lists of methods referencing certain artifacts
@@ -22,9 +23,6 @@ DESCRIPTION
 
   With the --literal option present, each of the arguments is compiled into a
   literal.
-
-  With the --undeclared option present, each of the arguments represents an
-  undeclared global. 
 
   By default all methods in classes defined in the current  user''s symbol list are 
   searched references to the global or literal.

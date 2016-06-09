@@ -2,7 +2,7 @@ tools
 itemSelected: miniTool listElement: listElement selectedIndex: index shiftPressed: shiftPressed
   | registration enabled disabled enable |
   selectedProjectName := nil.
-  index == 0
+  (index == 0 or: [ index > self projects size ])
     ifTrue: [ ^ false ].
   registration := self projects at: index.
   selectedProjectName := registration projectName.
@@ -13,19 +13,21 @@ itemSelected: miniTool listElement: listElement selectedIndex: index shiftPresse
   #'unloadedProject'.
   #'repoBasedProject'.
   #'writableRepoBasedProject'.
+  #'loggableProject'.
   #'gitProject'.
   #'project'.
+  #'metacelloProject'.
   #'configurationProject'.
-  #'githubProject'.
+  #'gitBasedProject'.
   #'baselineProject'.
   #'nonDirtyGitProject'}.
   enable := [ :symbol | 
   enabled add: symbol.
-  disabled remove: symbol ].
+  disabled remove: symbol ifAbsent: [  ] ].
   registration hasVersionSkew
     ifTrue: [ enable value: #'versionSkew' ].
-  registration hasGithubRepo
-    ifTrue: [ enable value: #'githubProject' ].
+  registration hasGitBasedRepo
+    ifTrue: [ enable value: #'gitBasedProject' ].
   (registration isLoadedInImage or: [ registration isExternalGitProject ])
     ifTrue: [ 
       registration isLoadedInImage
@@ -36,23 +38,29 @@ itemSelected: miniTool listElement: listElement selectedIndex: index shiftPresse
       (registration isMetacelloProject or: [ registration hasGitRepository ])
         ifTrue: [ 
           enable value: #'repoBasedProject'.
-          registration hasGithubRepo
-            ifFalse: [ enable value: #'writableRepoBasedProject' ].
-          registration isConfigurationBased
-            ifTrue: [ enable value: #'configurationProject' ] ] ]
+          registration hasGitBasedRepo
+            ifFalse: [ 
+              enable
+                value: #'writableRepoBasedProject';
+                value: #'loggableProject' ] ] ]
     ifFalse: [ 
       registration isExternalGitProject
         ifFalse: [ enable value: #'unloadedProject' ] ].
   registration hasGitRepository
     ifTrue: [ 
-      enable value: #'gitProject'.
+      enable
+        value: #'gitProject';
+        value: #'loggableProject'.
       registration isDirty
         ifFalse: [ enable value: #'nonDirtyGitProject' ] ].
   registration isMetacelloProject
-    ifTrue: [ enable value: #'project' ].
-  registration isBaselineBased
+    ifTrue: [ enable value: #'metacelloProject' ].
+  (registration isBaselineBased or: [ registration isHybridBased ])
     ifTrue: [ enable value: #'baselineProject' ].
-  ^ STON
+  (registration isConfigurationBased or: [ registration isHybridBased ])
+    ifTrue: [ enable value: #'configurationProject' ].
+  enable value: #'project'.
+  ^ self objectSerializer
     toString:
       {#'setMenuCategories:'.
       enabled.

@@ -4,9 +4,8 @@ gitCommit: projectRegistration commitMessage: messageString
   gitRepoDir := self gitRepoDirForRegistration: projectRegistration.
   gitTool := topez toolInstanceFor: 'git'.
   commitMessageFileName := gitTool createTmpFileWith: messageString.
-  gitTool
-    gitaddIn: gitRepoDir with: '.';
-    gitcommitIn: gitRepoDir with: '-a --file=' , commitMessageFileName.
+  gitTool gitaddIn: gitRepoDir with: '.'.
+  gitTool gitcommitIn: gitRepoDir with: '-a --file=' , commitMessageFileName.
   self gitUpdateRegistrationVersionInfo: projectRegistration.
   status := gitTool gitlogIn: gitRepoDir with: '-1'.
   Transcript

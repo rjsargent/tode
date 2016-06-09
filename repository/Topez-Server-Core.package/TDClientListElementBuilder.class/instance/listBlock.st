@@ -1,3 +1,3 @@
-as yet unclassified
+accessing
 listBlock
-  ^ [ :listElement | STON toString: (self clientList: listElement) ]
+  ^ [ :listElement | listElement objectSerializer toString: (self clientList: listElement) ]

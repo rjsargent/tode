@@ -6,7 +6,9 @@
 		 ],
 	"commentStamp" : "",
 	"instvars" : [
-		 ],
+		"isHybrid",
+		"registration",
+		"isValid" ],
 	"name" : "TDMetacelloUnloadedProjectRegistrationDefinition",
 	"pools" : [
 		 ],
